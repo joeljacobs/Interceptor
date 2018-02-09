@@ -108,13 +108,13 @@ void loop()
 //  Serial.print(" ");
 //  Serial.println(pedal1);
 //  Serial.println(receivedChar);
-  if (pedal0 > 3699)
+  if (pedal0 > 3599)
   {
-    pedal0 = 3699;
+    pedal0 = 3199;
   }
-  if (pedal1 > 4499)
+  if (pedal1 > 4399)
   {
-    pedal1 = 4499;
+    pedal1 = 3999;
   }
   setOutput(0, GAIN_2, 1, pedal0);
   setOutput(1, GAIN_2, 1, pedal1);
