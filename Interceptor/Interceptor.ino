@@ -13,6 +13,7 @@ unsigned char buf[8];
 unsigned long interval=100; // the time we need to wait
 unsigned long previousMillis=0; // millis() returns an unsigned long.
 char receivedChar;
+
 MCP_CAN CAN(SPI_CS_PIN); 
  
 void setup()
@@ -43,10 +44,10 @@ void setOutput(byte channel, byte gain, byte shutdown, unsigned int val)
   byte lowByte = val & 0xff; //sends lower 8 bits of 12-bit value (& oxff means make everything a 1 except what val has as a zero - to clear?)
   byte highByte = ((val >> 8) & 0xff) | channel << 7 | gain << 5 | shutdown << 4;
    
-  PORTB &= 0xfb; //PORTB means bankB on the arduino. this sends a 1 to bankB pin 3, which is pin 10
+  PORTB &= 0xfb; //PORTB means bankB on the arduino. this sends a 1 to bankB pin 3, which is pin 10 - joel thinks this is backwards - sends a 0
   SPI.transfer(highByte);
   SPI.transfer(lowByte);
-  PORTB |= 0x4; //this sends a 0 to bankB pin3 which is pin 10. 
+  PORTB |= 0x4; //this sends a 0 to bankB pin3 which is pin 10. - Joel thinks this is backwards - sends a 1
 }
 
 
@@ -118,6 +119,8 @@ void loop()
   }
   setOutput(0, GAIN_2, 1, pedal0);
   setOutput(1, GAIN_2, 1, pedal1);
+  PORTB &= 0xfE; //latch LDAC by taking pin 8 low
+  PORTB |= 0x1; //unlatch LCAC by taking pin 8 high
 
 unsigned long currentMillis = millis(); // grab current time
  // check if "interval" time has passed (1000 milliseconds)
