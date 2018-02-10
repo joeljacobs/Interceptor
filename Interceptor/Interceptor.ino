@@ -36,7 +36,7 @@ attachInterrupt(2, MCP2515_ISR, FALLING); // start interrupt for can
 CAN.init_Mask(0, 0, 0x3ff);                         // there are 2 mask in mcp2515, you need to set both of them
 CAN.init_Mask(1, 0, 0x3ff);
 CAN.init_Filt(0, 0, 0x200); //0x200
-
+PORTB &= 0xfE; //latch LDAC by taking pin 8 low
 }
  
 void setOutput(byte channel, byte gain, byte shutdown, unsigned int val)
@@ -50,9 +50,6 @@ void setOutput(byte channel, byte gain, byte shutdown, unsigned int val)
   PORTB |= 0x4; //this sends a 0 to bankB pin3 which is pin 10. - Joel thinks this is backwards - sends a 1
 }
 
-
-
- 
 unsigned char stmp[5] = {0, 0, 0, 0, 0};
 
 void MCP2515_ISR()
@@ -70,57 +67,22 @@ void recvOneChar() {
 void loop()
 {
 
-//  recvOneChar();
-//  if ((receivedChar == '1'))
-//    {
-//      pedal0 = 2048;
-//    }
-//      if ((receivedChar == '2'))
-//    {
-//      pedal0 = 512;
-//    }
-//      if ((receivedChar == '3'))
-//    {
-//      pedal1 = 2048;
-//    }
-//      if ((receivedChar == '4'
-//      
-//      ))
-//    {
-//      pedal1 = 512;
-//    }
-//      if ((receivedChar == '5'
-//      
-//      ))
-//    {
-//      pedal0 = 2048;
-//      pedal1 = 2048;
-//    }
-//      if ((receivedChar == '6'
-//      
-//      ))
-//    {
-//      pedal0 = 64;
-//      pedal1 = 64;
-//    }
   pedal0 = analogRead(A0) * 4 *1.24;
   pedal1 = analogRead(A1) * 4 *1.24;
-//  Serial.print(pedal0);
-//  Serial.print(" ");
-//  Serial.println(pedal1);
-//  Serial.println(receivedChar);
-  if (pedal0 > 3599)
+  
+  if (pedal0 > 3199) //3700
   {
     pedal0 = 3199;
   }
-  if (pedal1 > 4399)
+  if (pedal1 > 3999) //4500
   {
     pedal1 = 3999;
   }
   setOutput(0, GAIN_2, 1, pedal0);
   setOutput(1, GAIN_2, 1, pedal1);
-  PORTB &= 0xfE; //latch LDAC by taking pin 8 low
-  PORTB |= 0x1; //unlatch LCAC by taking pin 8 high
+
+ // PORTB &= 0xfE; //latch LDAC by taking pin 8 low
+ // PORTB |= 0x1; //unlatch LCAC by taking pin 8 high
 
 unsigned long currentMillis = millis(); // grab current time
  // check if "interval" time has passed (1000 milliseconds)
