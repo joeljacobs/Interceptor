@@ -1,5 +1,5 @@
 # Interceptor
-Code and info for a Gas Pedal Interceptor for use with Open Pilot
+Code and info for a Gas Pedal Interceptor for use with Open Pilot - Now superceded by Comma Pedal! 
 
 ### Explanation
 The interceptor is used to provide stop-and-go capability on Open Pilot supported cars that don't currently support it. 
@@ -12,6 +12,9 @@ When Comma originally setup Open Pilot on their Acura, they created their own in
 Comma believes ECU hacks are a more elegant solution to the stop-and-go problem. However skills are required to accomplish such hacks, so it is likely many cars will never get one. This is where the interceptor comes in. When asked about this problem, Comma said their plans for an intercepter weren't ever going to be in any shape to publish, but that if we wanted to build one from scratch, we could create a Slack channel and make it happen. 
 
 Much of the code Comma uses on the Acura still exists in Open Pilot. This means it shouldn't be too difficult to integrate into it. In fact, when asked, George said "It’s probably a 20 line change."
+
+# UDATE: On February 27, 2018 COMMA ANNOUNCED THEIR OWN INTERCEPTOR! THE COMMA PEDAL!
+Now that the Pedal exists, this project will flounder. But I'll at least keep the information around. 
 
 ### How it works
 A prototype is now built using the hardware listed below. It is essentially an Arduino Uno connected to a CAN Bus module and a Digital to Analog Converter. These then connect to the gas pedal, the ECU and the CAN bus.  
